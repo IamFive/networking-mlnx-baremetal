@@ -1,0 +1,17 @@
+- project:
+    templates:
+      - check-requirements
+      - openstack-python-jobs-neutron
+      - openstack-python3-train-jobs-neutron
+      - publish-openstack-docs-pti
+      - release-notes-jobs-python3
+    check:
+      jobs:
+        - networking-baremetal-multitenant-vlans
+        - networking-baremetal-multitenant-vlans-python2
+        - openstack-tox-lower-constraints
+    gate:
+      jobs:
+        - networking-baremetal-multitenant-vlans
+        - networking-baremetal-multitenant-vlans-python2
+        - openstack-tox-lower-constraints

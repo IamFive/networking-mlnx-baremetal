@@ -1,0 +1,71 @@
+{
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-09-25T06:52:51",
+    "device_owner": "compute:nova",
+    "revision_number": 6,
+    "binding:profile": {
+        "enable_internet": false,
+        "local_link_information": [
+            {
+                "port_id": "25GE1/0/45",
+                "switch_id": "48:57:02:dc:cf:51"
+            }
+        ]
+    },
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.144"
+        }
+    ],
+    "id": "a81ccaa7-6aa6-4194-b38e-1b0d60684ed8",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding:vif_details": {
+        "ovs_hybrid_plug": true,
+        "port_filter": true
+    },
+    "binding:vif_type": "ovs",
+    "mac_address": "84:a9:c4:6f:3f:c5",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "ACTIVE",
+    "binding:host_id": "ec70ad11-2645-4029-9a60-589ae7f8885b",
+    "description": "",
+    "tags": [],
+    "device_id": "117d9568-a310-4186-8251-85c7115987c6",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-09-25T06:52:31Z",
+    "binding:vnic_type": "baremetal"
+}

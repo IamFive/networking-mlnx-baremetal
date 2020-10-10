@@ -1,0 +1,9 @@
+[
+  {
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "segmentation_id": 15998,
+    "physical_network": null,
+    "id": "3a0946cc-1f61-4211-8a33-b8e2b0b7a2a0",
+    "network_type": "vxlan"
+  }
+]

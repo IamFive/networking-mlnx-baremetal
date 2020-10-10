@@ -1,0 +1,1546 @@
+Oct 04 20: 04: 22 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-6dea2b9a-34fd-4a9f-b821-9fc3b8566e96 demo admin
+] update_port_precommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T11:20:06Z",
+    "device_owner": "compute:nova",
+    "revision_number": 6,
+    "binding:profile": {},
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [
+        {
+            "physical_network": "",
+            "driver": "mlnx_ib_bm",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 0
+        },
+        {
+            "physical_network": "",
+            "driver": "huawei_ac_ml2",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 1
+        }
+    ],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "DOWN",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "ACTIVE",
+    "binding:host_id": "d8b345fa-fb44-462a-8c3b-a34b59d627e8",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T11:20:06Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [
+        {
+            "physical_network": "",
+            "driver": "mlnx_ib_bm",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 0
+        },
+        {
+            "physical_network": "",
+            "driver": "huawei_ac_ml2",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 1
+        }
+    ],
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "binding:profile": {
+        "local_link_information": [
+            {
+                "port_id": "25GE1/0/41",
+                "switch_id": "48:57:02:dc:cf:51"
+            }
+        ]
+    },
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {
+        "ovs_hybrid_plug": true,
+        "port_filter": true
+    },
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "ovs",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host d8b345fa-fb44-462a-8c3b-a34b59d627e8) vif type unbound (original vif type ovs) vif details {} (original vif details {
+    "ovs_hybrid_plug": true,
+    "port_filter": true
+}) binding levels null (original binding levels [
+    {
+        "bound_driver": "mlnx_ib_bm",
+        "bound_segment": {
+            "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+            "segmentation_id": 15998,
+            "physical_network": null,
+            "id": "3a0946cc-1f61-4211-8a33-b8e2b0b7a2a0",
+            "network_type": "vxlan"
+        }
+    },
+    {
+        "bound_driver": "huawei_ac_ml2",
+        "bound_segment": {
+            "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+            "segmentation_id": 15998,
+            "physical_network": null,
+            "id": "3a0946cc-1f61-4211-8a33-b8e2b0b7a2a0",
+            "network_type": "vxlan"
+        }
+    }
+]) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 22 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-6dea2b9a-34fd-4a9f-b821-9fc3b8566e96 demo admin
+] update_port_postcommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:22",
+    "device_owner": "compute:nova",
+    "revision_number": 6,
+    "binding:profile": {
+        "enable_internet": false
+    },
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [
+        {
+            "physical_network": "",
+            "driver": "mlnx_ib_bm",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 0
+        },
+        {
+            "physical_network": "",
+            "driver": "huawei_ac_ml2",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 1
+        }
+    ],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "DOWN",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "ACTIVE",
+    "binding:host_id": "d8b345fa-fb44-462a-8c3b-a34b59d627e8",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T11:20:06Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [
+        {
+            "physical_network": "",
+            "driver": "mlnx_ib_bm",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 0
+        },
+        {
+            "physical_network": "",
+            "driver": "huawei_ac_ml2",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 1
+        }
+    ],
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "binding:profile": {
+        "local_link_information": [
+            {
+                "port_id": "25GE1/0/41",
+                "switch_id": "48:57:02:dc:cf:51"
+            }
+        ]
+    },
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {
+        "ovs_hybrid_plug": true,
+        "port_filter": true
+    },
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "ovs",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host d8b345fa-fb44-462a-8c3b-a34b59d627e8) vif type unbound (original vif type ovs) vif details {} (original vif details {
+    "ovs_hybrid_plug": true,
+    "port_filter": true
+}) binding levels null (original binding levels [
+    {
+        "bound_driver": "mlnx_ib_bm",
+        "bound_segment": {
+            "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+            "segmentation_id": 15998,
+            "physical_network": null,
+            "id": "3a0946cc-1f61-4211-8a33-b8e2b0b7a2a0",
+            "network_type": "vxlan"
+        }
+    },
+    {
+        "bound_driver": "huawei_ac_ml2",
+        "bound_segment": {
+            "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+            "segmentation_id": 15998,
+            "physical_network": null,
+            "id": "3a0946cc-1f61-4211-8a33-b8e2b0b7a2a0",
+            "network_type": "vxlan"
+        }
+    }
+]) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 25 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-c30e0086-0fc1-45b6-9ab1-2a9beb2c9a49 demo admin
+] update_port_precommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:25Z",
+    "device_owner": "compute:nova",
+    "revision_number": 8,
+    "binding:profile": {},
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "DOWN",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "DOWN",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:22Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 7,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host ) vif type unbound (original vif type unbound) vif details {} (original vif details {}) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 26 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-c30e0086-0fc1-45b6-9ab1-2a9beb2c9a49 demo admin
+] update_port_postcommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:25",
+    "device_owner": "compute:nova",
+    "revision_number": 8,
+    "binding:profile": {
+        "enable_internet": false
+    },
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "DOWN",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "DOWN",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:22Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 7,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host ) vif type unbound (original vif type unbound) vif details {} (original vif details {}) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 28 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-4d81d9df-12d1-42cc-b43e-931a13668c89 demo admin
+] update_port_precommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:25Z",
+    "device_owner": "compute:nova",
+    "revision_number": 8,
+    "binding:profile": {},
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:25Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 8,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host ) vif type unbound (original vif type unbound) vif details {} (original vif details {}) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 28 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-4d81d9df-12d1-42cc-b43e-931a13668c89 demo admin
+] update_port_postcommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:28",
+    "device_owner": "compute:nova",
+    "revision_number": 8,
+    "binding:profile": {
+        "enable_internet": false
+    },
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:25Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 8,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host ) vif type unbound (original vif type unbound) vif details {} (original vif details {}) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 31 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-2aa0e807-2bb4-4da6-847a-9494e9e8cc7d demo admin
+] update_port_precommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:30Z",
+    "device_owner": "compute:nova",
+    "revision_number": 10,
+    "binding:profile": {},
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:48:8f:ef",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:28Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 9,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host ) vif type unbound (original vif type unbound) vif details {} (original vif details {}) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 31 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-071aeef2-a368-456d-a7ee-2c63ddd553d3 req-2aa0e807-2bb4-4da6-847a-9494e9e8cc7d demo admin
+] update_port_postcommit called with port settings {
+    "allowed_address_pairs": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:31",
+    "device_owner": "compute:nova",
+    "revision_number": 10,
+    "binding:profile": {
+        "enable_internet": false
+    },
+    "port_security_enabled": true,
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "binding_levels": [],
+    "binding:vif_details": {},
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:48:8f:ef",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "tags": [],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z",
+    "binding:vnic_type": "baremetal"
+} (original settings {
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:28Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 9,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:c9:8f:08",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+}) host  (original host ) vif type unbound (original vif type unbound) vif details {} (original vif details {}) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 37 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-722cd09e-152d-4dd1-822f-25f82843797e req-82716414-57d4-4962-9d03-6f46d41c8d31 admin admin
+] delete_port_precommit called with port settings {
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:31Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 10,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:48:8f:ef",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+} (original settings null) host  (original host null) vif type unbound (original vif type null) vif details {} (original vif details null) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null
+Oct 04 20: 04: 38 devstack18 neutron-server[
+    25156
+]: INFO neutron.tests.unit.plugins.ml2.drivers.mechanism_logger [req-722cd09e-152d-4dd1-822f-25f82843797e req-82716414-57d4-4962-9d03-6f46d41c8d31 admin admin
+] delete_port_postcommit called with port settings {
+    "status": "ACTIVE",
+    "binding:host_id": "",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-10-04T12:04:31Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [],
+    "revision_number": 10,
+    "port_security_enabled": true,
+    "binding:profile": {},
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.4"
+        }
+    ],
+    "id": "827189f4-22da-4603-99a5-78877b471099",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "ff8e9e7f-3414-49cf-85a8-a211463cc13d",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {},
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "unbound",
+    "mac_address": "fa:16:3e:48:8f:ef",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-10-04T11:19:46Z"
+} (original settings null) host  (original host null) vif type unbound (original vif type null) vif details {} (original vif details null) binding levels null (original binding levels null) on network {
+    "provider:physical_network": null,
+    "ipv6_address_scope": null,
+    "revision_number": 6,
+    "port_security_enabled": true,
+    "provider:network_type": "vxlan",
+    "id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "router:external": false,
+    "availability_zone_hints": [],
+    "availability_zones": [
+        "nova"
+    ],
+    "ipv4_address_scope": null,
+    "shared": false,
+    "project_id": "0875c404aadf425f9133c9936cf34590",
+    "status": "ACTIVE",
+    "subnets": [
+        "08816503-8de8-4aa5-ab05-dceacffd19dd"
+    ],
+    "description": "",
+    "tags": [],
+    "updated_at": "2020-09-28T14:17:51Z",
+    "provider:segmentation_id": 15998,
+    "name": "SDNtenant1",
+    "admin_state_up": true,
+    "tenant_id": "0875c404aadf425f9133c9936cf34590",
+    "created_at": "2020-09-24T03:07:55Z",
+    "mt": 1450,
+    "vlan_transparent": false
+} with segments to bind null

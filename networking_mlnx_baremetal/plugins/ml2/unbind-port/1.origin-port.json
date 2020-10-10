@@ -1,0 +1,79 @@
+{
+    "status": "ACTIVE",
+    "binding:host_id": "64c65f46-426b-42ff-ae19-3c89f8a66c46",
+    "description": "",
+    "allowed_address_pairs": [],
+    "tags": [],
+    "extra_dhcp_opts": [
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "150"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "66"
+        },
+        {
+            "opt_value": "192.168.69.2",
+            "ip_version": 4,
+            "opt_name": "server-ip-address"
+        },
+        {
+            "opt_value": "undionly.kpxe",
+            "ip_version": 4,
+            "opt_name": "tag:!ipxe,67"
+        },
+        {
+            "opt_value": "http://192.168.69.2:3928/boot.ipxe",
+            "ip_version": 4,
+            "opt_name": "tag:ipxe,67"
+        }
+    ],
+    "updated_at": "2020-09-27T15:18:54Z",
+    "device_owner": "compute:nova",
+    "binding_levels": [
+        {
+            "physical_network": "",
+            "driver": "huawei_ac_ml2",
+            "network_type": "vxlan",
+            "segmentation_id": 15998,
+            "level": 0
+        }
+    ],
+    "revision_number": 7,
+    "port_security_enabled": true,
+    "binding:profile": {
+        "local_link_information": [
+            {
+                "port_id": "25GE1/0/41",
+                "switch_id": "48:57:02:dc:cf:51"
+            }
+        ]
+    },
+    "fixed_ips": [
+        {
+            "subnet_id": "08816503-8de8-4aa5-ab05-dceacffd19dd",
+            "ip_address": "192.168.86.245"
+        }
+    ],
+    "id": "09efaacc-390b-480a-846f-eb12e8a6c5d4",
+    "security_groups": [
+        "1ffddca0-b0f1-424c-a410-1ff4acb7475e"
+    ],
+    "device_id": "6b7cb384-ef47-4bf2-b8c4-4ce53f6e57af",
+    "name": "",
+    "admin_state_up": true,
+    "network_id": "9425b757-339d-4954-a17b-dbb3f7061006",
+    "tenant_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "binding:vif_details": {
+        "ovs_hybrid_plug": true,
+        "port_filter": true
+    },
+    "binding:vnic_type": "baremetal",
+    "binding:vif_type": "ovs",
+    "mac_address": "28:a6:db:a9:92:27",
+    "project_id": "3e5f135adb37476c9cc2cd47dc579cfc",
+    "created_at": "2020-09-27T15:18:34Z"
+}

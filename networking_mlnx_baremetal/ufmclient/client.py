@@ -18,14 +18,15 @@ from networking_mlnx_baremetal.ufmclient.session import UfmSession
 class UfmClient(object):
     """UFM API Client"""
 
-    def __init__(self, endpoint, username, password, verify_ca):
+    def __init__(self, endpoint, username, password, verify_ca, timeout=None):
         self._endpoint = endpoint
         self._username = username
         self._password = password
         self._verify_ca = verify_ca
 
         # initialize request session
-        self._session = UfmSession(endpoint, username, password, verify_ca)
+        self._session = UfmSession(endpoint, username, password, verify_ca,
+                                   timeout=timeout)
         # initialize UFM PKey resource client
         self._pkey = pkey.PKeyResourceClient(self._session, ufm_client=self)
 

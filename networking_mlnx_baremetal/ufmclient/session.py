@@ -46,9 +46,10 @@ class UfmSession(object):
     # http://docs.python-requests.org/en/master/user/advanced/#timeouts
     _DEFAULT_TIMEOUT = 60
 
-    def __init__(self, endpoint, username, password, verify_ca):
+    def __init__(self, endpoint, username, password, verify_ca, timeout=None):
         self.endpoint = endpoint
         self.base_url = '%s/ufmRest' % endpoint
+        self._timeout = timeout if timeout else self._DEFAULT_TIMEOUT
 
         # Initial request session
         self._session = requests.Session()
@@ -111,7 +112,7 @@ class UfmSession(object):
 
         req = requests.Request(method, url, json=json, headers=headers)
         prepped_req = self._session.prepare_request(req)
-        res = self._session.send(prepped_req, timeout=self._DEFAULT_TIMEOUT)
+        res = self._session.send(prepped_req, timeout=self._timeout)
         res.raise_for_status()
         LOG.debug('UFM responses -> %(method)s %(url)s, code: %(code)s, '
                   'content:: %(content)s',

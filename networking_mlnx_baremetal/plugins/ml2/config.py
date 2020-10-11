@@ -41,7 +41,8 @@ DRIVER_OPTS = [
     cfg.ListOpt('physical_networks',
                 default=constants.PHYSICAL_NETWORK_ANY,
                 help=_("Comma-separated list of physical_network which this "
-                       "driver should watch. * means any physical_networks.")),
+                       "driver should watch. * means any physical_networks "
+                       "including None.")),
 ]
 
 

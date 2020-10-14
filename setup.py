@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from io import open
+from os import path
+
 # THIS FILE IS MANAGED BY THE GLOBAL REQUIREMENTS REPO - DO NOT EDIT
 import setuptools
 
@@ -24,6 +27,12 @@ try:
 except ImportError:
     pass
 
+here = path.abspath(path.dirname(__file__))
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setuptools.setup(
-    setup_requires=['pbr>=2.0.0'],
+    setup_requires=['pbr>=5.4.3'],
+    long_description=long_description,
+    long_description_content_type='text/x-rst; charset=UTF-8',
     pbr=True)

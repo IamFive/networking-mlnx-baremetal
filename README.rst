@@ -23,12 +23,12 @@ on spec `Hierarchical Port Binding`_. The final network topology looks like:
      +-----------------+                +-------------+
      | Mellanox Switch |                | Core Switch |
      +---+-----+-------+                +-------+-----+
-         |     |                                |               
-         |     |                                |   
-         |     |                                |                 
+         |     |                                |
+         |     |                                |
          |     |                         +------+-----+               
          |     |                         | ToR Switch |            
          |     |                         +--+------+--+            
+         |     |                                |
          |     |                            |      |           
          |     |                            |      |                
          |     |  IB  +--------------+  eth |      |  
@@ -38,6 +38,7 @@ on spec `Hierarchical Port Binding`_. The final network topology looks like:
          |     IB     +--------------+    eth      |  
          +------------+ Ironic Node  +-------------+    
        PKey           +--------------+           VXLAN
+
 
 Currently, this driver is only tested along with ``networking-huawei`` driver
  and Ironic ``ramdisk`` deploy interface on OpenStack ``stable/train`` release.

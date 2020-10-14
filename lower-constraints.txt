@@ -87,7 +87,7 @@ ovsdbapp==0.10.0
 packaging==17.1
 Paste==2.0.3
 PasteDeploy==1.5.2
-pbr==2.0.0
+pbr==5.4.3
 pecan==1.2.1
 pep8==1.5.7
 pika-pool==0.1.3

@@ -21,7 +21,7 @@ from networking_mlnx_baremetal._i18n import _
 LOG = logging.getLogger(__name__)
 
 
-class MlnxIbBmDriver(Exception):
+class MlnxIbBmDriverException(Exception):
     """Basic exception"""
 
     message = None
@@ -30,9 +30,14 @@ class MlnxIbBmDriver(Exception):
         if self.message and kwargs:
             self.message = self.message % kwargs
 
-        super(MlnxIbBmDriver, self).__init__(self.message)
+        super(MlnxIbBmDriverException, self).__init__(self.message)
 
 
-class InvalidConfigValueException(MlnxIbBmDriver):
+class InvalidConfigValueException(MlnxIbBmDriverException):
     message = _('Invalid value "%(value)s" was set to configuration '
                 'option: %(option)s. %(details)s')
+
+
+class PortBindingException(MlnxIbBmDriverException):
+    message = _("Failed to add guids %(guids)s to UFM partition "
+                "key %(pkey)s, reason is %(reason)s.")

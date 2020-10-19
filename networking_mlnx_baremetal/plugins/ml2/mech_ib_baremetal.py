@@ -14,13 +14,15 @@
 import copy
 
 from ironicclient.common.apiclient import exceptions as ironic_exc
+from neutron.db import provisioning_blocks
+from neutron_lib import constants as n_const
 from neutron_lib.api.definitions import portbindings
+from neutron_lib.callbacks import resources
 from neutron_lib.plugins.ml2 import api
 from oslo_config import cfg
 from oslo_log import log as logging
-from oslo_serialization import jsonutils
 
-from networking_mlnx_baremetal import constants as const
+from networking_mlnx_baremetal import constants as const, exceptions
 from networking_mlnx_baremetal import ironic_client
 from networking_mlnx_baremetal import ufm_client
 from networking_mlnx_baremetal._i18n import _
@@ -320,57 +322,71 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                        'skip update_port_postcommit callback.'))
             return
 
-        current_vif_type = port.get(portbindings.VIF_TYPE)
-        original_vif_type = original_port.get(portbindings.VIF_TYPE)
+        if not self._is_port_bound(context):
+            LOG.info(_('Port is not bound by current driver, '
+                       'skip update_port_postcommit callback.'))
+            return
 
+        binding_level = self._get_binding_level(context)
+        LOG.info(_('Port is bound by current driver with binding '
+                   'level %(binding_level)s.'),
+                 {'binding_level': binding_level})
+
+        current_vif_type = context.vif_type
+        original_vif_type = context.original_vif_type
+
+        # when port is unbound, unbind relevant guids from IB partition.
         if (current_vif_type == portbindings.VIF_TYPE_UNBOUND
                 and original_vif_type not in const.UNBOUND_VIF_TYPES):
-            LOG.info(_('Port''s VIF type changed from bound to unbound, '
-                       'checking port is bound by current driver now.'))
-            if self._is_port_bound(context):
-                binding_level = self._get_binding_level(context)
-                LOG.info(_('Port is bound by current driver with binding '
-                           'level %(binding_level)s. Remove infiniband guids '
-                           'from partition key now.'),
-                         {'binding_level': binding_level})
+            LOG.info(_("Port's VIF type changed from bound to unbound"))
+            LOG.info(_("Remove infiniband guids from partition key now."))
 
-                # binding:host_id has been clear in current port
-                node_uuid = original_port.get(portbindings.HOST_ID)
-                node_ib_guids = self._get_ironic_ib_guids(node_uuid)
-                if len(node_ib_guids) == 0:
-                    LOG.error(_(
-                        'For current port(%(port)s), could not find any '
-                        'infiniband port presents in the same ironic '
-                        'node(%(node_uuid)s), could not remove guids from '
-                        'partition key.'),
-                        {port: port, 'node_uuid': node_uuid})
-                    return
+            # binding:host_id has been clear in current port
+            node_uuid = original_port.get(portbindings.HOST_ID)
+            node_ib_guids = self._get_ironic_ib_guids(node_uuid)
+            if len(node_ib_guids) == 0:
+                LOG.error(_(
+                    'For current port(%(port)s), could not find any '
+                    'infiniband port presents in the same ironic '
+                    'node(%(node_uuid)s), could not remove guids from '
+                    'partition key.'),
+                    {port: port, 'node_uuid': node_uuid})
+                return
 
-                LOG.info(_('To removed infiniband port guids: %s.')
-                         % node_ib_guids)
+            LOG.info(_('To be removed infiniband port guids: %s.')
+                     % node_ib_guids)
 
-                segmentation_id = binding_level.get(api.SEGMENTATION_ID)
-                self.ufm_client.pkey.remove_guids(hex(segmentation_id),
-                                                  node_ib_guids)
-                LOG.info(_('Infiniband port guids %(guids)s has been removed '
-                           'from partition key %(pkey)s.'),
-                         {'guids': node_ib_guids,
-                          'pkey': hex(segmentation_id)})
-            else:
-                LOG.info(_('Port is not bound by current driver, '
-                           'skip update_port_postcommit callback.'))
+            segmentation_id = binding_level.get(api.SEGMENTATION_ID)
+            self.ufm_client.pkey.remove_guids(hex(segmentation_id),
+                                              node_ib_guids)
+            LOG.info(_('Infiniband port guids %(guids)s has been removed '
+                       'from partition key %(pkey)s.'),
+                     {'guids': node_ib_guids,
+                      'pkey': hex(segmentation_id)})
 
+        # when port is bound, mark port as provision completed.
         if (current_vif_type not in const.UNBOUND_VIF_TYPES
                 and original_vif_type in const.UNBOUND_VIF_TYPES):
-            LOG.info(_('Port''s VIF type changed from unbound to bound, '
-                       'checking port is bound by current driver now.'))
-            # NOTE(qianbiao.ng): this action maps to
+            LOG.info(_("Port's VIF type changed from unbound to bound."))
+            # NOTE(qianbiao.ng): this provisioning_complete action maps to
             #  provisioning_blocks.add_provisioning_component called in
             #  bind_port process.
             # provisioning_blocks.provisioning_complete(
             #     context._plugin_context, port['id'], resources.PORT,
             #     MLNX_IB_BAREMETAL_ENTITY)
             pass
+
+        # when port binding fails, raise exception
+        if (port.get('status') == n_const.PORT_STATUS_ERROR
+                and current_vif_type == portbindings.VIF_TYPE_BINDING_FAILED):
+            LOG.info(_("Port binding failed, Port's VIF details: "
+                       "%(vif_details)s."),
+                     {'vif_details': context.vif_details})
+            if context.vif_details.get('driver') == const.DRIVE_NAME:
+                LOG.info(_("Port binding failure is caused by current driver. "
+                           "Raise an exception to abort port update "
+                           "process."))
+                raise exceptions.PortBindingException(**context.vif_details)
 
     def delete_port_precommit(self, context):
         """Delete resources of a port.
@@ -473,37 +489,57 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                 LOG.info(_('Load infiniband ports guids: %s.')
                          % node_ib_guids)
 
-                # provisioning_blocks.add_provisioning_component(
-                #     context._plugin_context, port['id'], resources.PORT,
-                #     MLNX_IB_BAREMETAL_ENTITY)
-
                 LOG.debug(_('Try to bind IB ports using segment: %s'), segment)
                 # update partition key for relevant guids
                 segment_id = segment[api.ID]
                 segmentation_id = segment[api.SEGMENTATION_ID]
-                self.ufm_client.pkey.add_guids(hex(segmentation_id),
-                                               guids=node_ib_guids)
-                LOG.info(_('Successfully bound IB ports %(ports)s to '
-                           'partition %(pkey)s.'),
-                         {'ports': node_ib_guids,
-                          'pkey': hex(segmentation_id)})
 
-                # NOTE(turnbig): setting VIF details has not effect here.
-                # details = {
-                #     const.MLNX_EXTRA_NS: {
-                #         portbindings.VIF_TYPE: portbindings.VIF_TYPE_OTHER,
-                #         'guids': node_ib_guids,
-                #         'pkey': segmentation_id,
-                #     }
-                # }
-                # LOG.info(_('Update bound IB port vif info: %(vif_details)s.'),
-                #          {'vif_details': details})
-                # context._binding.vif_details = jsonutils.dumps(details)
+                try:
+                    provisioning_blocks.add_provisioning_component(
+                        context._plugin_context, port['id'], resources.PORT,
+                        MLNX_IB_BAREMETAL_ENTITY)
 
-                # NOTE(turnbig): chain current segment again to next driver
-                new_segment = copy.deepcopy(segment)
-                context.continue_binding(segment_id, [new_segment])
-                return
+                    self.ufm_client.pkey.add_guids(hex(segmentation_id),
+                                                   guids=node_ib_guids)
+                    LOG.info(_('Successfully bound IB ports %(ports)s to '
+                               'partition %(pkey)s.'),
+                             {'ports': node_ib_guids,
+                              'pkey': hex(segmentation_id)})
+
+                    # NOTE(turnbig): setting VIF details has no effect here.
+                    # details = {
+                    #     const.MLNX_EXTRA_NS: {
+                    #         'guids': node_ib_guids,
+                    #         'pkey': segmentation_id,
+                    #     }
+                    # }
+                    # LOG.info(_('Update bound IB port vif info: '
+                    #            '%(vif_details)s.'),
+                    #          {'vif_details': details})
+                    # context._binding.vif_details = jsonutils.dumps(details)
+
+                    # NOTE(turnbig): chain current segment again to next driver
+                    new_segment = copy.deepcopy(segment)
+                    context.continue_binding(segment_id, [new_segment])
+                    return
+                except ufm_exec.UfmClientError as e:
+                    LOG.error(_("Failed to add guids %(guids)s to UFM "
+                                "partition key %(pkey)s, "
+                                "reason is %(reason)s."),
+                              {'guids': node_ib_guids,
+                               'pkey': hex(segmentation_id),
+                               'reason': str(e)})
+
+                    # TODO(qianbiao.ng): if IB partition binding fails,
+                    #   we should abort the bind_port process and exit.
+                    vif_details = {'guids': node_ib_guids,
+                                   'pkey': hex(segmentation_id),
+                                   'driver': const.DRIVE_NAME,
+                                   'reason': str(e)}
+                    context.set_binding(segment[api.ID],
+                                        portbindings.VIF_TYPE_BINDING_FAILED,
+                                        vif_details,
+                                        status=n_const.PORT_STATUS_ERROR)
 
     @staticmethod
     def _is_baremetal_port(port):

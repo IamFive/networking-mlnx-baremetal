@@ -71,6 +71,7 @@ Or from source:
    $ git clone https://github.com/IamFive/networking-mlnx-baremetal.git
    $ cd networking-mlnx-baremetal
    $ git checkout stable/train
+   $ pip install -r requirements.txt -c upper-constraints.txt
    $ python setup.py install
 
 

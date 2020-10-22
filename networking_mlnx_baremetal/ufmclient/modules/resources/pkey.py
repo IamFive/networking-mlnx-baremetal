@@ -73,7 +73,7 @@ class PKeyResourceClient(base.RestApiBaseClient):
     def delete(self, pkey):
         self._session.delete('/resources/pkeys/%s' % pkey)
 
-    def add_guids(self, pkey, guids, index0=False, ip_over_ib=True,
+    def add_guids(self, pkey, guids, index0=True, ip_over_ib=True,
                   full_membership=True):
         """add guid list to a PKey
 

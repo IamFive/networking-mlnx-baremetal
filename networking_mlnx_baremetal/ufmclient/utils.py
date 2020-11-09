@@ -21,11 +21,15 @@ def mlnx_ib_client_id_to_guid(client_id):
     9 characters from the GUID.
 
     Example:
-    address - a0:00:00:27:fe:80:00:00:00:00:00:00:7c:fe:90:03:00:29:26:52
-    GUID - 7c:fe:90:03:00:29:26:52
-    MAC - 7c:fe:90:29:26:52
-    client-id - ff:00:00:00:00:00:02:00:00:02:c9:00: + address[36:]
-                (Mellanox InfiniBand Prefix)
+    address     - a0:00:00:27:fe:80:00:00:00:00:00:00:7c:fe:90:03:00:29:26:52
+    GUID        - 7c:fe:90:03:00:29:26:52
+    MAC         - 7c:fe:90:29:26:52
+    client-id   - ff:00:00:00:00:00:02:00:00:02:c9:00:  + address[36:]
+                  (Mellanox InfiniBand Prefix)          + address[36:]
+
+    client-id - ff:00:00:00:00:00:02:00:00:02:c9:00:04:bd:70:03:00:37:44:86
+    GUID      - 04:bd:70:03:00:37:44:86
+    MAC       - 04:bd:70:37:44:86
 
     :param client_id: the client-id from ironic_port.extra['client-id']
     :return:

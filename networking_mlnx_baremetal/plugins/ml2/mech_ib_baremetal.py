@@ -21,6 +21,7 @@ from neutron_lib.callbacks import resources
 from neutron_lib.plugins.ml2 import api
 from oslo_config import cfg
 from oslo_log import log as logging
+from oslo_serialization import jsonutils
 
 from networking_mlnx_baremetal import constants as const
 from networking_mlnx_baremetal import exceptions
@@ -633,7 +634,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                     # LOG.info(_('Update bound IB port vif info: '
                     #            '%(vif_details)s.'),
                     #          {'vif_details': details})
-                    # context._binding.vif_details = jsonutils.dumps(details)
+                    context._binding.vif_details = jsonutils.dumps(
+                        binding_profile)
 
                     # NOTE(turnbig): chain current segment again to next driver
                     new_segment = copy.deepcopy(segment)

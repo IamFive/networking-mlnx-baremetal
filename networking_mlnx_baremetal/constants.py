@@ -39,3 +39,9 @@ then we will set the PKey for IB ports in this instance.
 
 PHYSICAL_NETWORK_ANY = '*'
 """* matches any physical network include none"""
+
+VIRTUAL_MAC_OUI_STARTS = "fe:fe:00"
+"""The virtual MAC OUI starts from"""
+
+MLNX_GUID_FIXED_SEGMENT = ['03', '00']
+"""Fixed extra segment in the middle of Mellanox GUID"""

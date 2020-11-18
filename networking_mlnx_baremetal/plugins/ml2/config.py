@@ -36,13 +36,28 @@ DRIVER_OPTS = [
                       'certificate or one of the certificates in the '
                       'directory. Defaults to True. Optional.')),
     cfg.IntOpt('timeout',
-               help=_("HTTP timeout in seconds."),
+               help=_("UFM REST API HTTP timeout in seconds."),
                default=10),
     cfg.ListOpt('physical_networks',
                 default=constants.PHYSICAL_NETWORK_ANY,
                 help=_("Comma-separated list of physical_network which this "
                        "driver should watch. * means any physical_networks "
                        "including None.")),
+    cfg.BoolOpt('enable_sriov',
+                default=False,
+                help=_('Whether SR-IOV is enabled for binding infiniband port '
+                       'to different pkeys when necessary. Defaults to False. '
+                       'Optional.')),
+    cfg.ListOpt('default_limited_pkeys',
+                default=None,
+                help=_('Comma-separated list of limited pkey to bound by '
+                       'default, examples: 0x0001,0x0002. For every limited '
+                       'pkey, if SR-IOV is enabled, driver will virtualize a '
+                       'new port with unique GUID and MAC, then bind the '
+                       'virtual port GUID to the limited pkey. If SR-IOV is '
+                       'not enabled, driver will bind the physical infiniband '
+                       'port to the pkey with option index0 valued False. '
+                       'Defaults None. Optional.')),
 ]
 
 

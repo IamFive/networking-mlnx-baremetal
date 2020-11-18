@@ -22,18 +22,27 @@ from neutron_lib.plugins.ml2 import api
 from oslo_config import cfg
 from oslo_log import log as logging
 
-from networking_mlnx_baremetal import constants as const, exceptions
+from networking_mlnx_baremetal import constants as const
+from networking_mlnx_baremetal import exceptions
 from networking_mlnx_baremetal import ironic_client
 from networking_mlnx_baremetal import ufm_client
+from networking_mlnx_baremetal import utils
 from networking_mlnx_baremetal._i18n import _
 from networking_mlnx_baremetal.plugins.ml2 import config
-from networking_mlnx_baremetal.ufmclient import exceptions as ufm_exec
+from networking_mlnx_baremetal.ufmclient import exceptions as ufm_exc
+from networking_mlnx_baremetal.ufmclient import utils as ufm_utils
 
 CONF = cfg.CONF
 LOG = logging.getLogger(__name__)
 config.register_opts(CONF)
 
 MLNX_IB_BAREMETAL_ENTITY = 'MLNX-IB-Baremetal'
+
+BF_ENABLE_SRIOV = 'enable_sriov'
+BF_DFT_LIMITED_PKEYS = 'default_limited_pkeys'
+BF_PHYSICAL_GUIDS = 'physical_guids'
+BF_VIRTUAL_GUIDS = 'virtual_guids'
+BF_DYNAMIC_PKEY = 'dynamic_pkey'
 
 
 class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
@@ -151,13 +160,13 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                 pkey = hex(segmentation_id)
                 try:
                     self.ufm_client.pkey.delete(pkey)
-                except ufm_exec.ResourceNotFoundError:
+                except ufm_exc.ResourceNotFoundError:
                     # NOTE(turnbig): ignore 404 exception, because of that the
                     #  UFM partition key may have not been setup at this point.
                     LOG.info(_("UFM partition key %(pkey)s does not exists, "
                                "could not be deleted."),
                              {'pkey': pkey})
-                except ufm_exec.UfmClientError as e:
+                except ufm_exc.UfmClientError as e:
                     LOG.error(_("Failed to delete UFM partition key %(pkey)s, "
                                 "reason is %(reason)s."),
                               {'pkey': pkey, 'reason': e})
@@ -343,7 +352,21 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
 
             # binding:host_id has been clear in current port
             node_uuid = original_port.get(portbindings.HOST_ID)
-            node_ib_guids = self._get_ironic_ib_guids(node_uuid)
+            node_ib_ports = self._get_ironic_ib_ports(node_uuid)
+            if not node_ib_ports or len(node_ib_ports) == 0:
+                LOG.error(_(
+                    'For current port(%(port)s), could not find any '
+                    'infiniband port presents in the same ironic '
+                    'node(%(node_uuid)s), could not remove guids from '
+                    'partition key.'),
+                    {port: port, 'node_uuid': node_uuid})
+                return
+
+            node_ib_client_ids = [ib_port.extra.get('client-id')
+                                  for ib_port in node_ib_ports
+                                  if ib_port.extra.get('client-id')]
+            node_ib_guids = [ufm_utils.mlnx_ib_client_id_to_guid(client_id)
+                             for client_id in node_ib_client_ids]
             if len(node_ib_guids) == 0:
                 LOG.error(_(
                     'For current port(%(port)s), could not find any '
@@ -353,16 +376,47 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                     {port: port, 'node_uuid': node_uuid})
                 return
 
-            LOG.info(_('To be removed infiniband port guids: %s.')
-                     % node_ib_guids)
-
+            # step1: remove physical guids from dynamic pkeys
             segmentation_id = binding_level.get(api.SEGMENTATION_ID)
-            self.ufm_client.pkey.remove_guids(hex(segmentation_id),
-                                              node_ib_guids)
-            LOG.info(_('Infiniband port guids %(guids)s has been removed '
-                       'from partition key %(pkey)s.'),
+            LOG.info(_('To be unbound dynamic pkey %(pkey)s, '
+                       'physical guids %(guids)s.'),
                      {'guids': node_ib_guids,
                       'pkey': hex(segmentation_id)})
+            self.ufm_client.pkey.remove_guids(hex(segmentation_id),
+                                              node_ib_guids)
+            LOG.info(_('Infiniband port physical guids %(guids)s has been '
+                       'removed from pkey %(pkey)s.'),
+                     {'guids': node_ib_guids,
+                      'pkey': hex(segmentation_id)})
+
+            # step2: unbound default limited pkeys
+            # self.unbind_default_limited_pkeys(port, node_ib_guids)
+            if self.conf.default_limited_pkeys:
+                sriov_enabled = self.conf.enable_sriov
+                if sriov_enabled:
+                    LOG.info(_('SR-IOV is enabled, remove virtual guids '
+                               'from default limited pkeys now.'))
+                    vf_count = len(self.conf.default_limited_pkeys)
+                    virtual_guids = [
+                        list(utils.generate_virtual_guids(client_id,
+                                                          count=vf_count))
+                        for client_id in node_ib_client_ids]
+                    grouped_guids = dict(zip(self.conf.default_limited_pkeys,
+                                             zip(*virtual_guids)))
+                    LOG.info(_('Virtual guids for default limited pkeys is '
+                               '%(grouped_guids)s .'),
+                             {'grouped_guids': grouped_guids})
+                    for pkey, vf_guids in grouped_guids.iteritems():
+                        self.ufm_client.pkey.remove_guids(pkey, vf_guids)
+                        LOG.info(_('Successfully remove IB virtual guids '
+                                   '%(guids)s from limited pkey %(pkey)s.'),
+                                 {'guids': vf_guids, 'pkey': pkey})
+                else:
+                    for pkey in self.conf.default_limited_pkeys:
+                        self.ufm_client.pkey.remove_guids(pkey, node_ib_guids)
+                        LOG.info(_('Successfully remove IB physical guids '
+                                   '%(guids)s from limited pkey %(pkey)s.'),
+                                 {'guids': node_ib_guids, 'pkey': pkey})
 
         # when port is bound, mark port as provision completed.
         if (current_vif_type not in const.UNBOUND_VIF_TYPES
@@ -371,10 +425,9 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
             # NOTE(qianbiao.ng): this provisioning_complete action maps to
             #  provisioning_blocks.add_provisioning_component called in
             #  bind_port process.
-            # provisioning_blocks.provisioning_complete(
-            #     context._plugin_context, port['id'], resources.PORT,
-            #     MLNX_IB_BAREMETAL_ENTITY)
-            pass
+            provisioning_blocks.provisioning_complete(
+                context._plugin_context, port['id'], resources.PORT,
+                MLNX_IB_BAREMETAL_ENTITY)
 
         # when port binding fails, raise exception
         if (port.get('status') == n_const.PORT_STATUS_ERROR
@@ -387,6 +440,48 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                            "Raise an exception to abort port update "
                            "process."))
                 raise exceptions.PortBindingException(**context.vif_details)
+
+    def unbind_default_limited_pkeys(self, port, node_ib_guids):
+        """unbind virtual guids from default limited pkeys
+
+        NOTE(qianbiao.ng): port can not be updated when node is locked, so,
+        binding profile can not be set when binding port (node is locked).
+        This solution is deprecated for now.
+
+        :param port:
+        :param node_ib_guids:
+        :return:
+        """
+        mac_address = port.get('mac_address')
+        eth_port = self._get_ironic_port_by_mac(mac_address)
+        binding_profile = eth_port.extra or {}
+        default_limited_pkeys = binding_profile.get(BF_DFT_LIMITED_PKEYS)
+        if default_limited_pkeys:
+            sriov_enabled = binding_profile.get(BF_ENABLE_SRIOV)
+            if sriov_enabled:
+                LOG.info(_('SR-IOV is enabled, remove virtual guids '
+                           'from default limited pkeys now.'))
+                virtual_guids = binding_profile.get(BF_VIRTUAL_GUIDS)
+                grouped_guids = dict(zip(default_limited_pkeys,
+                                         virtual_guids))
+                LOG.info(_('Virtual guids for default limited pkeys is '
+                           '%(grouped_guids)s .'),
+                         {'grouped_guids': grouped_guids})
+                for pkey, vf_guids in grouped_guids.iteritems():
+                    self.ufm_client.pkey.remove_guids(pkey, vf_guids)
+                    LOG.info(_('Successfully remove IB virtual guids '
+                               '%(guids)s from limited pkey %(pkey)s.'),
+                             {'guids': vf_guids, 'pkey': pkey})
+            else:
+                for pkey in default_limited_pkeys:
+                    self.ufm_client.pkey.remove_guids(pkey, node_ib_guids)
+                    LOG.info(_('Successfully remove IB physical guids '
+                               '%(guids)s from limited pkey %(pkey)s.'),
+                             {'guids': node_ib_guids, 'pkey': pkey})
+
+            # restore Ironic PXE port extra
+            mac_address = port.get('mac_address')
+            self.remove_ironic_port_extra(mac_address)
 
     def delete_port_precommit(self, context):
         """Delete resources of a port.
@@ -477,8 +572,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
         for segment in context.segments_to_bind:
             if self._is_segment_supported(segment):
                 node_uuid = port.get(portbindings.HOST_ID)
-                node_ib_guids = self._get_ironic_ib_guids(node_uuid)
-                if len(node_ib_guids) == 0:
+                node_ib_ports = self._get_ironic_ib_ports(node_uuid)
+                if not node_ib_ports or len(node_ib_ports) == 0:
                     LOG.warning(_(
                         'For current port(%(port)s), could not find any IB '
                         'port presents in the same ironic '
@@ -486,7 +581,12 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                         {port: port, 'node_uuid': node_uuid})
                     return
 
-                LOG.info(_('Load infiniband ports guids: %s.')
+                node_ib_client_ids = [ib_port.extra.get('client-id')
+                                      for ib_port in node_ib_ports
+                                      if ib_port.extra.get('client-id')]
+                node_ib_guids = [ufm_utils.mlnx_ib_client_id_to_guid(client_id)
+                                 for client_id in node_ib_client_ids]
+                LOG.info(_('Ironic node infiniband port guids: %s.')
                          % node_ib_guids)
 
                 LOG.debug(_('Try to bind IB ports using segment: %s'), segment)
@@ -499,12 +599,29 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                         context._plugin_context, port['id'], resources.PORT,
                         MLNX_IB_BAREMETAL_ENTITY)
 
+                    # step1: bind PF guids to dynamic pkey
                     self.ufm_client.pkey.add_guids(hex(segmentation_id),
-                                                   guids=node_ib_guids)
-                    LOG.info(_('Successfully bound IB ports %(ports)s to '
-                               'partition %(pkey)s.'),
-                             {'ports': node_ib_guids,
+                                                   guids=node_ib_guids,
+                                                   index0=True)
+                    LOG.info(_('Successfully bound IB physical guids '
+                               '%(guids)s to dynamic partition %(pkey)s.'),
+                             {'guids': node_ib_guids,
                               'pkey': hex(segmentation_id)})
+
+                    # step2: if there are default limited pkeys to bound,
+                    binding_profile = self.bind_default_limited_pkeys(
+                        node_ib_client_ids)
+                    binding_profile[BF_DYNAMIC_PKEY] = segmentation_id
+                    binding_profile[BF_PHYSICAL_GUIDS] = node_ib_guids
+                    LOG.info(_("Mellanox infiniband port binding profile: "
+                               "%(profile)s."),
+                             {'profile': binding_profile})
+
+                    # NOTE(turnbig): node is locked when deploying, and port
+                    # can not be updated when node is locked
+                    # mac_address = port.get('mac_address')
+                    # self.append_ironic_port_extra(mac_address,
+                    #                               binding_profile)
 
                     # NOTE(turnbig): setting VIF details has no effect here.
                     # details = {
@@ -522,17 +639,17 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                     new_segment = copy.deepcopy(segment)
                     context.continue_binding(segment_id, [new_segment])
                     return
-                except ufm_exec.UfmClientError as e:
+                except ufm_exc.UfmClientError as e:
                     LOG.error(_("Failed to add guids %(guids)s to UFM "
                                 "partition key %(pkey)s, "
                                 "reason is %(reason)s."),
-                              {'guids': node_ib_guids,
+                              {'guids': node_ib_client_ids,
                                'pkey': hex(segmentation_id),
                                'reason': str(e)})
 
                     # TODO(qianbiao.ng): if IB partition binding fails,
                     #   we should abort the bind_port process and exit.
-                    vif_details = {'guids': node_ib_guids,
+                    vif_details = {'guids': node_ib_client_ids,
                                    'pkey': hex(segmentation_id),
                                    'driver': const.DRIVE_NAME,
                                    'reason': str(e)}
@@ -540,6 +657,58 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                                         portbindings.VIF_TYPE_BINDING_FAILED,
                                         vif_details,
                                         status=n_const.PORT_STATUS_ERROR)
+
+    def bind_default_limited_pkeys(self, node_ib_client_ids):
+        """Binding guids to default limited pkeys, if SR-IOV is enable,
+        will auto generate virtual GUID from source physical GUID.
+
+        :param node_ib_client_ids:  source physical infiniband client-id list
+        :return: binding profiles of those default limited pkeys
+        """
+        if not self.conf.default_limited_pkeys:
+            LOG.info(_('No default limited pkeys is configured.'))
+            return
+
+        LOG.info(_('Default limited pkeys %(pkeys)s is configured.'),
+                 {'pkeys': self.conf.default_limited_pkeys})
+        binding_profile = {
+            BF_ENABLE_SRIOV: self.conf.enable_sriov,
+            BF_DFT_LIMITED_PKEYS: self.conf.default_limited_pkeys
+        }
+
+        if self.conf.enable_sriov:
+            LOG.info(_('SR-IOV is enabled, will generate virtual guids for '
+                       'default limited pkeys.'))
+            vf_count = len(self.conf.default_limited_pkeys)
+            virtual_guids = [
+                list(utils.generate_virtual_guids(client_id, count=vf_count))
+                for client_id in node_ib_client_ids]
+            grouped_guids = dict(zip(self.conf.default_limited_pkeys,
+                                     zip(*virtual_guids)))
+            LOG.info(_('Virtual guids for default limited pkeys is '
+                       '%(grouped_guids)s .'),
+                     {'grouped_guids': grouped_guids})
+            for pkey, vf_guids in grouped_guids.iteritems():
+                self.ufm_client.pkey.add_guids(pkey, guids=vf_guids,
+                                               index0=True,
+                                               full_membership=False)
+                LOG.info(_('Successfully bound IB virtual guids %(guids)s to '
+                           'limited pkey %(pkey)s.'),
+                         {'guids': vf_guids, 'pkey': pkey})
+
+            binding_profile[BF_VIRTUAL_GUIDS] = zip(*virtual_guids)
+        else:
+            guids = [ufm_utils.mlnx_ib_client_id_to_guid(client_id)
+                     for client_id in node_ib_client_ids]
+            for pkey in self.conf.default_limited_pkeys:
+                self.ufm_client.pkey.add_guids(pkey, guids=guids,
+                                               index0=False,
+                                               full_membership=False)
+                LOG.info(_('Successfully bound IB physical guids %(guids)s to '
+                           'limited pkey %(pkey)s with option index0 False.'),
+                         {'guids': guids, 'pkey': pkey})
+
+        return binding_profile
 
     @staticmethod
     def _is_baremetal_port(port):
@@ -791,18 +960,28 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
 
         return None
 
-    def _get_ironic_ib_guids(self, node):
-        """Get all ib guid list of an Ironic node.
+    def _get_ironic_ib_ports(self, node):
+        """Get infiniband port list of an Ironic node.
 
         :param node: indicates the uuid of ironic node
-        :return: infiniband guid list for all present IB ports
+        :return: infiniband port instance list present in this node
+        """
+        node_ports = self._get_ironic_ports(node)
+        node_ib_ports = [node_port
+                         for node_port in node_ports
+                         if node_port.extra.get('client-id')]
+        return node_ib_ports
+
+    def _get_ironic_ports(self, node_uuid):
+        """Get all ports of an Ironic node.
+
+        :param node_uuid: indicates the uuid of ironic node
+        :return: ironic port instance list
         """
         try:
-            node_ports = self.ironic_client.port.list(node=node, detail=True)
-            node_ib_guids = [node_port.extra.get('client-id')
-                             for node_port in node_ports
-                             if node_port.extra.get('client-id')]
-            return node_ib_guids
+            node_ports = self.ironic_client.port.list(node=node_uuid,
+                                                      detail=True)
+            return node_ports
         except ironic_exc.UnsupportedVersion:
             LOG.exception(
                 "Failed to get ironic port list, Ironic Client is "
@@ -810,9 +989,57 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
             raise
         except (ironic_exc.AuthPluginOptionsMissing,
                 ironic_exc.AuthSystemNotFound):
-            LOG.exception("Failed to get ironic port list due to Ironic Client"
-                          " authentication failure.")
+            LOG.exception("Failed to get ironic port list due to Ironic "
+                          "Client authentication failure.")
             raise
         except Exception:
             LOG.exception("Failed to get ironic port list.")
             raise
+
+    def _get_ironic_port_by_mac(self, mac_address):
+        """Get ironic port by mac address
+
+        :param mac_address: indicates the MAC address of port
+        :return: ironic port instance
+        """
+        try:
+            node_port = self.ironic_client.port.get_by_address(mac_address)
+            return node_port
+        except ironic_exc.UnsupportedVersion:
+            LOG.exception(
+                "Failed to get ironic port by mac address, Ironic Client is "
+                "using unsupported version of the API.")
+            raise
+        except (ironic_exc.AuthPluginOptionsMissing,
+                ironic_exc.AuthSystemNotFound):
+            LOG.exception("Failed to get ironic port list due to Ironic "
+                          "Client authentication failure.")
+            raise
+        except Exception:
+            LOG.exception(
+                "Failed to get ironic port has MAC address: " + mac_address)
+            raise
+
+    def append_ironic_port_extra(self, mac_address, to_append):
+        """append data to ironic port's extra field
+
+        :param mac_address: indicates the MAC address of the port to be updated
+        :param to_append:   to append dictionary data for extra field
+        """
+        ironic_port = self._get_ironic_port_by_mac(mac_address)
+        original_extra = ironic_port.extra
+        original_extra.update(to_append)
+        patch = [{'op': 'replace',
+                  'value': original_extra,
+                  'path': '/extra'}]
+        self.ironic_client.port.update(ironic_port.uuid, patch)
+
+    def remove_ironic_port_extra(self, mac_address):
+        """remove ironic port's extra field
+
+        :param mac_address: indicates the MAC address of the port to be updated
+        """
+        ironic_port = self._get_ironic_port_by_mac(mac_address)
+        patch = [{'op': 'remove',
+                  'path': '/extra'}]
+        self.ironic_client.port.update(ironic_port.uuid, patch)

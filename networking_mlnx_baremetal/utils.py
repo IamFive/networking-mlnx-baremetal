@@ -1,3 +1,5 @@
+import random
+
 from networking_mlnx_baremetal import constants
 from networking_mlnx_baremetal.ufmclient import constants as ufm_const
 
@@ -26,9 +28,9 @@ def get_mac_from_mlnx_ib_client_id(client_id):
     return client_id
 
 
-def generate_virtual_guids(client_id, count=1):
-    """generate virtual GUID from source physical Mellanox infiniband port's
-    client_id.
+def generate_regular_virtual_guids(client_id, count=1):
+    """generate regular virtual GUID from source physical Mellanox infiniband
+    port's client_id.
 
     GUID is composed of "MAC OUI" + "Mellanox fixed segment" + "MAC offset".
 
@@ -51,4 +53,25 @@ def generate_virtual_guids(client_id, count=1):
 
         # add MAC address offset
         virtual_guid.extend(source_port_mac[-3:])
+        yield ''.join(virtual_guid)
+
+
+def generate_random_virtual_guids(count=1):
+    """generate random virtual GUID.
+
+    Random GUID will use fixed 16 bit prefix and random 32 bit suffix string.
+
+    :param count:     indicates the count of virtual guid to be generated
+    :return:          a generator of virtual guid
+    """
+    assert count > 0
+
+    mac_oui_starts = constants.VIRTUAL_MAC_OUI_STARTS.split(':')
+    for offset in range(0, count):
+        virtual_guid = mac_oui_starts[:-1]
+        virtual_guid.append(format(random.getrandbits(8), '02x'))
+        virtual_guid.extend(constants.MLNX_GUID_FIXED_SEGMENT)
+        virtual_guid.extend([format(random.getrandbits(8), '02x'),
+                             format(random.getrandbits(8), '02x'),
+                             format(random.getrandbits(8), '02x')])
         yield ''.join(virtual_guid)

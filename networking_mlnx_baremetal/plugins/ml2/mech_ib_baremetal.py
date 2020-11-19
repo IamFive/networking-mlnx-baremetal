@@ -440,9 +440,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                            'from default limited pkeys now.'))
                 vf_count = len(self.conf.default_limited_pkeys)
                 virtual_guids = [
-                    list(utils.generate_virtual_guids(client_id,
-                                                      count=vf_count))
-                    for client_id in node_ib_client_ids]
+                    list(utils.generate_random_virtual_guids(count=vf_count))
+                    for physical_guid in node_ib_client_ids]
                 grouped_guids = dict(zip(self.conf.default_limited_pkeys,
                                          zip(*virtual_guids)))
                 LOG.info(_('Virtual guids for default limited pkeys is '
@@ -691,8 +690,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                        'default limited pkeys.'))
             vf_count = len(self.conf.default_limited_pkeys)
             virtual_guids = [
-                list(utils.generate_virtual_guids(client_id, count=vf_count))
-                for client_id in node_ib_client_ids]
+                list(utils.generate_random_virtual_guids(count=vf_count))
+                for physical_guid in node_ib_client_ids]
             grouped_guids = dict(zip(self.conf.default_limited_pkeys,
                                      zip(*virtual_guids)))
             LOG.info(_('Virtual guids for default limited pkeys is '

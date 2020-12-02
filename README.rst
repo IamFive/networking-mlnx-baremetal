@@ -122,12 +122,25 @@ The default configurations may looks like:
     # Defaults to True. Optional. (string value)
     #verify_ca = True
 
-    # HTTP timeout in seconds. (integer value)
+    # UFM REST API HTTP timeout in seconds. (integer value)
     #timeout = 10
 
     # Comma-separated list of physical_network which this driver should
     # watch. * means any physical_networks including None. (list value)
     #physical_networks = *
+
+    # Whether SR-IOV is enabled for binding infiniband port to different
+    # pkeys when necessary. Defaults to False. Optional. (boolean value)
+    #enable_sriov = false
+
+    # Comma-separated list of limited pkey to bound by default, examples:
+    # 0x0001,0x0002. For every limited pkey, if SR-IOV is enabled, driver
+    # will virtualize a new port with unique GUID and MAC, then bind the
+    # virtual port GUID to the limited pkey. If SR-IOV is not enabled,
+    # driver will bind the physical infiniband port to the pkey with
+    # option index0 valued False. Defaults None. Optional. (list value)
+    #default_limited_pkeys = <None>
+
 
 
 Of course, you should generate options for ``mlnx.ironic.client`` too, then
@@ -147,6 +160,22 @@ The entry point name of this driver is ``mlnx_ib_bm``. To enable, add
     mechanism_drivers = mlnx_ib_bm,other_vxlan_driver,...,openvswitch
 
 
+Enable SR-IOV
+^^^^^^^^^^^^^
+
+To enable SR-IOV feature of Mellanox infiniband port for binding
+``default_limited_pkeys``, extra three steps is required:
+
+- Enable SR-IOV in node's Mellanox firmware (reboot required)
+- Using crafted image with Mellanox SR-IOV component
+- Build a customer vendor-data metadata service
+
+Step 1 and 2 would be provided through ``mellanox-sriov`` element of `DIB`_.
+Step 1 is the prerequisites of step 2 and a reboot is required, so step 1 is
+usually scheduled along with inspection. Step 3 would be provided through
+`PCSS vendor metadata`_ project (this is a private project).
+
+
 Config Ironic-Inspector
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -160,7 +189,10 @@ infiniband port, ``add_port`` should be set to ``all``.
     add_ports=all
 
 Also, remember Mellanox infiniband hardware driver should be packaged in
-inspect ramdisk image.
+inspect ramdisk image. If SR-IOV is enabled, ``mellanox-sriov`` element
+should be included in inspection ramdisk image.
 
 
 .. _Hierarchical Port Binding: https://specs.openstack.org/openstack/neutron-specs/specs/kilo/ml2-hierarchical-port-binding.html
+.. _DIB: https://github.com/IamFive/diskimage-builder
+.. _PCSS vendor metadata: https://github.com/IamFive/pcss-vendor-metadata

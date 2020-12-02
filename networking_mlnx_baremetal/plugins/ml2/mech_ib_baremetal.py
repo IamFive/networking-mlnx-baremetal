@@ -39,11 +39,11 @@ config.register_opts(CONF)
 
 MLNX_IB_BAREMETAL_ENTITY = 'MLNX-IB-Baremetal'
 
-BF_ENABLE_SRIOV = 'enable_sriov'
-BF_DFT_LIMITED_PKEYS = 'default_limited_pkeys'
-BF_PHYSICAL_GUIDS = 'physical_guids'
-BF_VIRTUAL_GUIDS = 'virtual_guids'
-BF_DYNAMIC_PKEY = 'dynamic_pkey'
+BD_ENABLE_SRIOV = 'enable_sriov'
+BD_DFT_LIMITED_PKEYS = 'default_limited_pkeys'
+BD_PHYSICAL_GUIDS = 'physical_guids'
+BD_VIRTUAL_GUIDS = 'virtual_guids'
+BD_DYNAMIC_PKEY = 'dynamic_pkey'
 
 
 class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
@@ -359,8 +359,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
             binding_profile = context.original_vif_details
 
             # step1: unbound physical guids from dynamic pkey
-            dynamic_pkey = binding_profile.get(BF_DYNAMIC_PKEY)
-            physical_guids = binding_profile.get(BF_PHYSICAL_GUIDS)
+            dynamic_pkey = binding_profile.get(BD_DYNAMIC_PKEY)
+            physical_guids = binding_profile.get(BD_PHYSICAL_GUIDS)
             LOG.info(_('To be unbound dynamic pkey %(pkey)s, '
                        'physical guids %(guids)s.'),
                      {'guids': physical_guids,
@@ -372,14 +372,14 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                       'pkey': physical_guids})
 
             # step2: unbound default limited pkeys
-            default_limited_pkeys = binding_profile.get(BF_DFT_LIMITED_PKEYS)
+            default_limited_pkeys = binding_profile.get(BD_DFT_LIMITED_PKEYS)
             if default_limited_pkeys:
-                sriov_enabled = binding_profile.get(BF_ENABLE_SRIOV)
+                sriov_enabled = binding_profile.get(BD_ENABLE_SRIOV)
                 if sriov_enabled:
                     LOG.info(_('SR-IOV is enabled, remove virtual guids '
                                'from default limited pkeys now.'))
                     # virtual guids here has been zipped
-                    virtual_guids = binding_profile.get(BF_VIRTUAL_GUIDS)
+                    virtual_guids = binding_profile.get(BD_VIRTUAL_GUIDS)
                     grouped_guids = dict(zip(default_limited_pkeys,
                                              virtual_guids))
                     LOG.info(_('Virtual guids for default limited pkeys is '
@@ -474,13 +474,13 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
         eth_port = self._get_ironic_port_by_mac(mac_address)
 
         binding_profile = eth_port.extra or {}
-        default_limited_pkeys = binding_profile.get(BF_DFT_LIMITED_PKEYS)
+        default_limited_pkeys = binding_profile.get(BD_DFT_LIMITED_PKEYS)
         if default_limited_pkeys:
-            sriov_enabled = binding_profile.get(BF_ENABLE_SRIOV)
+            sriov_enabled = binding_profile.get(BD_ENABLE_SRIOV)
             if sriov_enabled:
                 LOG.info(_('SR-IOV is enabled, remove virtual guids '
                            'from default limited pkeys now.'))
-                virtual_guids = binding_profile.get(BF_VIRTUAL_GUIDS)
+                virtual_guids = binding_profile.get(BD_VIRTUAL_GUIDS)
                 grouped_guids = dict(zip(default_limited_pkeys,
                                          virtual_guids))
                 LOG.info(_('Virtual guids for default limited pkeys is '
@@ -630,8 +630,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                     # step2: if there are default limited pkeys to bound,
                     binding_profile = self.bind_default_limited_pkeys(
                         node_ib_client_ids)
-                    binding_profile[BF_DYNAMIC_PKEY] = hex(segmentation_id)
-                    binding_profile[BF_PHYSICAL_GUIDS] = node_ib_guids
+                    binding_profile[BD_DYNAMIC_PKEY] = hex(segmentation_id)
+                    binding_profile[BD_PHYSICAL_GUIDS] = node_ib_guids
                     LOG.info(_("Mellanox infiniband port binding profile: "
                                "%(profile)s."),
                              {'profile': binding_profile})
@@ -681,8 +681,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
         LOG.info(_('Default limited pkeys %(pkeys)s is configured.'),
                  {'pkeys': self.conf.default_limited_pkeys})
         binding_profile = {
-            BF_ENABLE_SRIOV: self.conf.enable_sriov,
-            BF_DFT_LIMITED_PKEYS: self.conf.default_limited_pkeys
+            BD_ENABLE_SRIOV: self.conf.enable_sriov,
+            BD_DFT_LIMITED_PKEYS: self.conf.default_limited_pkeys
         }
 
         if self.conf.enable_sriov:
@@ -705,7 +705,7 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                            'limited pkey %(pkey)s.'),
                          {'guids': vf_guids, 'pkey': pkey})
 
-            binding_profile[BF_VIRTUAL_GUIDS] = zip(*virtual_guids)
+            binding_profile[BD_VIRTUAL_GUIDS] = zip(*virtual_guids)
         else:
             guids = [ufm_utils.mlnx_ib_client_id_to_guid(client_id)
                      for client_id in node_ib_client_ids]

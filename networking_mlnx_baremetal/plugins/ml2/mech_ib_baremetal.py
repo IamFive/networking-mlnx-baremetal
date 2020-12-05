@@ -398,8 +398,8 @@ class InfiniBandBaremetalMechanismDriver(api.MechanismDriver):
                                  {'guids': physical_guids, 'pkey': pkey})
 
                 # restore Ironic PXE port extra
-                mac_address = port.get('mac_address')
-                self.remove_ironic_port_extra(mac_address)
+                # mac_address = port.get('mac_address')
+                # self.remove_ironic_port_extra(mac_address)
 
         # when port is bound, mark port as provision completed.
         if (current_vif_type not in const.UNBOUND_VIF_TYPES
